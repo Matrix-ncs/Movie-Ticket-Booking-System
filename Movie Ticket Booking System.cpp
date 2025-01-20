@@ -3,42 +3,19 @@
 #include <stdlib.h>
 #include <fstream>
 using namespace std;
-int obn,ext,prnt_once=0,dir_customer=0;//to save the hall number
-//dir_customer=0 if the user directly goes to user instead of manager
-//prnt_once to print once the term user foun
+int obn,ext,prnt_once=0,dir_customer=0;
 int m=0,*p,sn,arg,arg2,tkt,tkt_pr,nt=0,sti,foundu=0,foundp=0,pas_chk=0,mv_str=0,data_store=0;
 double cost=0;
-//data_store=0 TO STORE THAT THE DATA IS SUCCESSFULLY STORED IN FILE
-//mv_str=0 to run the loop when data is being brought from file to compiler
-int  pas_rak=0;//to store the return value of function password_check()
-//sn is variable for show number in manager function N m is for number of shows in a day
-//pas_chk stores the value i.e password matched or not
-//foundu to storevalue if user exists
-//foundo to storevalue if password is correct
+
+int  pas_rak=0;
 char cus_in;
-//cus_in is for storing if customer is new or existing
-//sti is for showtime input in manager func
-//st is for showtime check the seat_disp func
-//tkt is to count the no.of tickets to be booked by customer
-//tkt_pr is to print the no.of tickets to be booked
-//nt is the number of timings of a particular movie
-string name[100],tkt_pnt,pass,cus_id,cus_pas,user,hall_name;//pass is to save the password
-//hall_name to store the hall name
-//cus_id for storing customer id
-//cus_pas is for storing customer password
-//tkt_pnt[100] to print the movie name in ticket
-int ar[100][100][100][12][18],tkt_row[12],tkt_col[18],str_tim[100];//last two array r to be used to print ticket
-//str_tim is saving the no.of show of a particular movie
-/*in the array ar
-1st arg is for movie no.
-2nd arg is for particular showtime of particular movie
-3rd arg is for rows
-4th arg is for columns*/
+
+string name[100],tkt_pnt,pass,cus_id,cus_pas,user,hall_name;
+int ar[100][100][100][12][18],tkt_row[12],tkt_col[18],str_tim[100];
+
 string tim[100][100];
-/*ITS THE string array to store the timings of a particular movie
-1st argument is for movie number and and argument is for no.timings that
-particular runs*/
-string timing[100];//to store various timings of movie in file
+
+string timing[100];
 class movie_booking
 {
 
@@ -80,7 +57,7 @@ public:
 void movie_booking::first()
 {
     int i;
-    char in='c',bd,cus;//cus is customer and bd is manager input
+    char in='c',bd,cus;
     cout<<"\n\n\t\t\t\t\tTO ENTER MANAGER LOGIN PRESS 'o' or 'O' ELSE ANY OTHER KEY FOR CUSTOMER BOOKING\n";
     cout<<"\t\t\t\t\t\t\t";
     cin>>bd;
@@ -92,7 +69,7 @@ void movie_booking::first()
             (*this).pass_proctect();
         if(pass=="plex")
         {
-            (*this).manager();//the manager mode to set the number of seats available for booking
+            (*this).manager();
             pas_count=3;
         }
 
@@ -109,8 +86,8 @@ void movie_booking::first()
     cout<<"\n\n\t\t\t\t\t\t\tDEAR CUSTOMER TO BOOK SEATS PRESS 'y' or 'Y' \n";
     cout<<"\t\t\t\t\t\t\t";
     cin>>cus;
-    //HERE I HAVE TO ADD THE CUSTOMER LOGIN FUNCTION
-     if((cus=='y')||(cus=='Y'))//the customer part starts here
+    
+     if((cus=='y')||(cus=='Y'))
      {  cout<<"\n\t\t\t\t\t\t\tIF YOU ARE NEW CUSTOMER PRESS N/n TO SIGNUP\n";
         cout<<"\t\t\t\t\t\t\t";
         cin>>cus_in;
@@ -123,10 +100,10 @@ void movie_booking::first()
 
         }
 
-//cout<<"+++++++++++"<<pas_rak<<"--------"<<data_store<<endl;to check the values
+
         cout<<"\t\t\t\t\t\t\t";
         cout<<"PRESS ANYKEY TO CONTINUE\n";
-// CLEAR();
+
  system("clear");
          if(pas_rak!=0||data_store!=0)
          {  cout<<"\n\n\t\t\t\t\t\tTHE SEATS AVAILABLE ARE:\n";
@@ -137,7 +114,7 @@ void movie_booking::first()
             cout<<"\n\n\t\t\t\t\t\t\tENTER THE MOVIE NUMBER TO BOOK TICKET\n";
             cout<<"\t\t\t\t\t\t\t";
             cin>>arg;
-            ifstream fin;//this part is for retrieving moive name from file
+            ifstream fin;
 fin.open("movie_test2.csv");
    for(i=0;i<arg-1;i++)
    {
@@ -152,12 +129,12 @@ fin.open("movie_test2.csv");
             cin>>sti;
 
             tkt_pnt=name[i];
-               // cout<<"THE ARGUMENT IS ="<<arg<<endl;
+               
             (*this).seatdisp(arg,sti);
             (*this).seatin(arg,sti);
             system("clear");
             (*this).seatdisp(arg,sti);
-            /*HERE ANOTHER FUNCTION IS TO BE WRITTEN TO PRINT THE TICKETS*/
+            
             system("clear");
 
             (*this).ticket_print();
@@ -178,7 +155,7 @@ else{cout<<"\n\n\t\t\t\t\t\t\t YOU PRESSED WRONG USER PASSWORD\n";
 
 void movie_booking::show_seat_frm_file()
 {int i=0,j;
-    system("clear");//after the input is being over the screen is cleared and data is displayed
+    system("clear");
 cout<<"\n\n\t\t\t\t\t\t\tTHE MOVIES RUNNING IN HALL ARE:\n\n\n";
 ifstream fin;
 fin.open("movie_test2.csv");
@@ -198,11 +175,11 @@ while(i<m)
         cout<<"\t\t\t\t\t\t\t";
         cout<<tim[i][j]<<endl<<endl;
 
-i++;//to access the different movie names
+i++;
 }
 
 }
-void movie_booking::show()//this function is for entering the number of movie running in hall
+void movie_booking::show()
 {
     int i,j;
     p=(int*)(malloc(sizeof(int)));
@@ -212,22 +189,22 @@ void movie_booking::show()//this function is for entering the number of movie ru
     (*p)=m;
      ofstream fout;
     fout.open("movie_test2.csv",ios::app);
-for(i=0;i<m;i++)//m is the total no of movies running in that hall
+for(i=0;i<m;i++)
 {   fflush(stdin);
     cout<<"\n\n\t\t\t\t\t\t\tENTER THE NAME OF MOVIE "<<i+1<<endl;
     cout<<"\t\t\t\t\t\t\t";
     getline(cin,name[i]);
     fflush(stdin);
-    fout<<name[i]<<",";//movie name writing in file
+    fout<<name[i]<<",";
     cout<<"\n\n\t\t\t\t\t\t\tENTER THE NUMBER OF SHOWS OF MOVIE: "<<name[i]<<" IN A DAY : ";
     cin>>nt;
     str_tim[i]=nt;
-    //here a function is to be added to save the show timings
+    
     cout<<"\n\n\t\t\t\t\t\t\tENTER THE SHOW TIMINGS OF THE MOVIE : "<<name[i]<<endl;
     for(j=0;j<nt;j++)
     {   fflush(stdin);
          cout<<"\t\t\t\t\t\t\t";
-        getline(cin,tim[i][j]);// this is the function for collecting the show timings
+        getline(cin,tim[i][j]);
         fout<<tim[i][j]<<",";
 
     }
@@ -235,15 +212,14 @@ for(i=0;i<m;i++)//m is the total no of movies running in that hall
 
 }
  fout.close();
- //FILE HANDLING 100% CORRECT TILL HERE
- m=m+13;//as already is csv file there 13 movies
+ 
+ m=m+13;
 (*this).show_seat_frm_file();
 }
 
 
 void movie_booking::seatdisp(int z,int wt)
-//1st argument to display the seats of that particular movie
-//2nd arg is for the particular movie time
+
 {
     arg=z;
     sti=wt;
@@ -253,7 +229,7 @@ void movie_booking::seatdisp(int z,int wt)
     cout<<"\n\nCOST OF RECTILINEAR:Tk 1000/-\n";
       cout<<"COST OF PREMIUM :Tk 500/-\n";
     cout<<"COST OF  REGULAR :Tk 300/-\n";
-ifstream fin;//this part is for retrieving moive name from file
+ifstream fin;
 fin.open("movie_test2.csv");
    cout<<"\n\n\t\t\t\t\t\t\tBOOKED SEATS ARE MARKED WITH [x]\n\n";
    for(i=0;i<arg-1;i++)
@@ -277,8 +253,7 @@ fin.open("movie_test2.csv");
                 cout<<"["<<ch<<j+1<<"]";
             }
 
-            cout<<" ";//1 white spaces given
-                      //the seat would be displayed in format[A1]
+            cout<<" ";
 
             if(j==4||j==12)
                 cout<<"\t";
@@ -298,8 +273,8 @@ fin.open("movie_test2.csv");
 
 
 
-void movie_booking::book(int z,int wt ,int a)//first argument is for the movie number and 3rd argument for manager mode
-//2nd arg is for show time
+void movie_booking::book(int z,int wt ,int a)
+
 {int i,j,num,al,n,col,stor,arg;
 arg=z;
 sti=wt;
@@ -358,16 +333,15 @@ else
 
 }
 
-void movie_booking::seatin(int z,int wt)//1st argument for the particular movie seat booking
-//2nd arg is for particular show time of particular movie
+void movie_booking::seatin(int z,int wt)
 {
 
      int n,i;
     arg=z;
     sti=wt;
-    //cout<<"THE ARGUMENT IS nest="<<arg<<endl;
+    
      cout<<"\n\n\t\t\t\t\t\t\tENTER THE NUMBER OF SEATS TO BE BOOKED"<<endl;
-     ifstream fin;//this part is for retrieving moive name from file
+     ifstream fin;
 fin.open("movie_test2.csv");
    cout<<"\n\n\t\t\t\t\t\t\tBOOKED SEATS ARE MARKED WITH [x]\n\n";
 
@@ -382,7 +356,7 @@ fin.open("movie_test2.csv");
             cout<<"\t\t\t\t\t\t\t ";
     cin>>n;
     tkt_pr=n;
-       for(tkt=0;tkt<n;tkt++)//loop for booking the desired no. of tickets as input by user
+       for(tkt=0;tkt<n;tkt++)
 {
      (*this).book(arg,sti,20);
      cout<<"LOOP IS RUNNING\n";
@@ -391,7 +365,7 @@ fin.open("movie_test2.csv");
 
 }
 cout<<"\n\n\t\t\t\t\t\t\tPRESS ANY KEY TO CONTINUE\n";
-// CLEAR();
+
  system("clear");
 
 }
@@ -402,7 +376,7 @@ cout<<"\n\n\t\t\t\t\t\t\tPRESS ANY KEY TO CONTINUE\n";
 void movie_booking::manager()
 {   char mov='c',in='c';
     (*this).show();
-    while((mov=='c')||(mov=='C'))//this loop is for entering the seats that are booked for different movies
+    while((mov=='c')||(mov=='C'))
     {
         cout<<"\n\n\t\t\t\t\t\t\t ENTER THE SHOW NUMBER WHOSE SEATS U WANT TO ASSIGN FOR BOOKING\n";
         cout<<"\t\t\t\t\t\t\t";
@@ -434,9 +408,9 @@ void movie_booking::manager()
 void movie_booking::ticket_print()
 {    int i,a=0,b=0,d=0;
     char c;
-    string time;//time to store the movie timing
+    string time;
 
-    for(i=0;i<tkt_pr;i++)//this loop is for printing the total cost of ticket
+    for(i=0;i<tkt_pr;i++)
         {
 
 
@@ -465,11 +439,11 @@ void movie_booking::ticket_print()
        cost=cost+cost*(0.15);
         cout<<"\n\n\n\n\t\t\tTHE TOTAL TICKET COST = Tk "<<cost<<"/-"<<endl;
         cout<<"\n\nPRESS ANY KEY TO CONTINUE\n";
-    //    CLEAR();
+    
      system("clear");
 
          system("clear");
-         ifstream fin;//this part is for retrieving moive name from file
+         ifstream fin;
 fin.open("movie_test2.csv");
 
    for(i=0;i<arg-1;i++)
@@ -496,7 +470,7 @@ cout<<"\t\t\t|                            SHOW STARTS:"<<time<<"                
 cout<<"\t\t\t|                            NUMBER OF TICKETS BOOKED: "<<tkt_pr<<"                |\n";
 cout<<"\t\t\t|                 THE SEAT NUMBERS ARE: ";for(i=0;i<tkt_pr;i++)
                                             {   c=tkt_row[i]+65;
-                                                cout<<c<<tkt_col[i]+1;//PLS CHECK WHY I HV WRITTEN HERE +
+                                                cout<<c<<tkt_col[i]+1;
                                                 if(i<tkt-1)
                                                 {
                                                     cout<<",";
@@ -514,13 +488,12 @@ cout<<"\t\t\t|__________________________________________________________________
                                                 cout<<"\t\t\t\t\t\t\t\t\t\t         -Nishith Chandra Saha";
 }
 
-void movie_booking::pass_proctect()//to protect the password
+void movie_booking::pass_proctect()
 {
 
-        int ps=0,star=0;// to count the characters in password
+        int ps=0,star=0;
 
-        //star is to print the password in * format
-                    //pas[-1]=0;//intialised just like that "I GUESS ITS NIT REQUIRED"
+        
          cout<<"\n\n\t\t\t\t\t\t\tENTER THE MANAGER PASSWORD\n";
          cout<<"\t\t\t\t\t\t\t";
 
@@ -547,7 +520,7 @@ void movie_booking::data_str()
  ofstream fout;
     fout.open("database1.csv",ios::app);
     string name1,name2,usr_id,usr_psd;
-    /*format to be save is 1st name,title,user id,age,password*/
+    
     fflush(stdin);
 
 
@@ -691,7 +664,7 @@ int main()
 bye:
      cout<<"its working WITH file handling \n";
      system("clear");
-     cout<<"\n\n\n\n\t\t\t\t\t\t\t THANK YOU FOR USING OUR APPLICATION!!!!";
+     cout<<"\n\n\n\n\t\t\t\t\t\t\t THANK YOU FOR USING MY APPLICATION!!!!";
  return 0;
 
 }
